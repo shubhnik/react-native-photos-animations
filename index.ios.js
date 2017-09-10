@@ -13,12 +13,14 @@ import {
 } from 'react-native';
 
 import BasicImage from './components/basicImage'
+import ImageView from './components/ImageView'
 
 export default class photoViewer extends Component {
   render() {
     return (
       <View style={{flex:1}}>
-        <BasicImage />
+        {/* <BasicImage /> */}
+        <ImageView />
       </View>
     );
   }

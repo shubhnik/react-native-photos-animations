@@ -5,44 +5,137 @@ import {
   Text,
   View,
   Animated,
+  Dimensions,
+  Image,
   TouchableOpacity
 } from 'react-native';
+
+
+const { height, width } = Dimensions.get('window');
 
 export default class LargeImage extends Component{
 
     state={
-        animateOpacity: new Animated.Value(0)
+        animateImageX: new Animated.Value(0),
+        animateImageY: new Animated.Value(0),
+        scaleImageX: new Animated.Value(1),
+        scaleImageY: new Animated.Value(1),
+        viewOpacity: new Animated.Value(0),
+        scaleViewX: new Animated.Value(1),
+        scaleViewY: new Animated.Value(1)
     }
 
     componentDidMount(){
-        Animated.timing(
-            this.state.animateOpacity,
-            {
-               toValue: 1,
-               duration:200
-            }
-        ).start()
+        //alert(this.props.imgSource)
+        Animated.parallel([
+            Animated.timing(
+                this.state.viewOpacity,
+                {
+                    toValue:1,
+                    duration:100,
+                    useNativeDriver:true
+                }
+            ),
+            Animated.timing(
+                this.state.animateImageY,
+                {
+                    toValue: height/2 - (this.props.translateY+50),
+                    duration:200,
+                    useNativeDriver:true
+                }
+            ),
+            Animated.timing(
+                this.state.animateImageX,
+                {
+                    toValue: width/2 - (this.props.translateX+50),
+                    duration:200,
+                    useNativeDriver:true
+                }
+            ),
+            Animated.timing(
+                this.state.scaleImageX,
+                {
+                    toValue: (width/100),
+                    duration:100,
+                    useNativeDriver:true
+                }
+            ),
+            Animated.timing(
+                this.state.scaleImageY,
+                {
+                    toValue: (height/3)/100,
+                    duration:100,
+                    useNativeDriver:true
+                }
+            )
+         ]).start()
     }
 
-    hideLargeView(){
-        Animated.timing(
-            this.state.animateOpacity,
-            {
-                toValue:0,
-                duration:200
-            }
-        ).start()
+    hideImage(){
+        // Animated.parallel([
+        //     Animated.timing(
+        //         this.state.viewOpacity,
+        //         {
+        //             toValue:0,
+        //             duration:300,
+        //             useNativeDriver:true
+        //         }
+        //     ),
+        //     Animated.timing(
+        //         this.state.animateImageY,
+        //         {
+        //             toValue: height/2 + height/6,
+        //             duration:200,
+        //             useNativeDriver:true
+        //         }
+        //     )
+        // ]).start(() => this.props.hideImage())
+
+        Animated.parallel([
+            Animated.timing(
+                this.state.scaleViewX,
+                {
+                    toValue:0.7,
+                    duration:200,
+                    useNativeDriver:true
+                }
+            ),
+            Animated.timing(
+                this.state.scaleViewY,
+                {
+                    toValue:0.7,
+                    duration:200,
+                    useNativeDriver:true
+                }
+            ),
+            Animated.timing(
+                this.state.viewOpacity,
+                {
+                    toValue:0,
+                    duration:200,
+                    useNativeDriver:true
+                }
+            )
+        ]).start(()=>this.props.hideImage())
     }
+
     render(){
         return(
-            <Animated.View style={{ ...this.props.style, opacity:this.state.animateOpacity}}>
+            //this.props.showLargeImage && <LargeImage style={{ ...this.props.style }}/> 
+            <Animated.View style={{height, width, backgroundColor:'rgba(0,0,0,0.9)', position:'absolute', opacity:this.state.viewOpacity, transform:[{scaleX:this.state.scaleViewX}, {scaleY:this.state.scaleViewY}]}} >
+                <Animated.Image
+                    source={{uri:this.props.source}} 
+                    style={{top:this.props.translateY, left:this.props.translateX, height:100, width:width/2, transform:[{translateX: this.state.animateImageX}, {translateY: this.state.animateImageY}, {scaleX: this.state.scaleImageX}, {scaleY: this.state.scaleImageY}]}} 
+                />
                 <TouchableOpacity 
-                    onPress={() => this.hideLargeView()}
-                    style={{position:'absolute', justifyContent:'center', alignItems:'center', width:75, height:30,top:30, left:15, borderColor:'rgb(150,150,150)', borderWidth:1, borderRadius:3}}
+                    onPress={()=>this.hideImage()}
+                    style={{left:20, top:30, position:'absolute', height:30, width:60, backgroundColor:'rgba(20,20,20,0.7)', borderRadius:3, borderWidth:0.7, borderColor:'lightgrey', justifyContent:'center', alignItems:'center'}}
                 >
-                    <Text style={{color:'rgb(150,150,150)', fontSize:18, fontWeight:'400'}}>close</Text>
+                    <Text style={{color:'lightgrey'}}>Close</Text>
                 </TouchableOpacity>
             </Animated.View>
+
+            
         )
     }
 }

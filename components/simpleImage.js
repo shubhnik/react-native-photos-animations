@@ -25,6 +25,12 @@ export default class SimpleImage extends Component{
         scaleImageY: new Animated.Value(1)
     }
 
+    showLargeImage({pageX, pageY, locationX, locationY}){
+        const translateX = pageX - locationX
+        const translateY = pageY - locationY
+        this.setState({translateX, translateY, showLargeImage:true})
+    }
+
     animateImage({pageX, pageY, locationX, locationY}){
         const translateX = pageX - locationX
         const translateY = pageY - locationY
@@ -62,25 +68,33 @@ export default class SimpleImage extends Component{
         ]).start()
     }
 
+    hideImage(){
+        this.setState({showLargeImage:false})
+    }
+
     render(){
         return(
-            <View >
+            <View style={{flex:1}}>
                 <TouchableOpacity
-                    style={{height:100, width:100, zIndex:1}}
+                    style={{height:100, width:100}}
                     onPress={(e)=>{
                         nE = e.nativeEvent
-                        this.setState({showLargeImage:true}, () => {
-                            this.animateImage(nE)
-                        })
+                        this.showLargeImage(nE)
+                        //this.setState({showLargeImage:true}, () => {
+                        //    this.animateImage(nE)
+                        //})
                     }}
                 >
-                    <Animated.Image 
-                    source={require('../images/scene.png')} 
-                    style={{top:500, height:100, width:100, transform:[{translateX: this.state.animateImageX}, {translateY: this.state.animateImageY}, {scaleX: this.state.scaleImageX}, {scaleY: this.state.scaleImageY}]}} 
+                    <Image 
+                        ref={c => this._image=c}
+                        source={require('../images/scene.png')} 
+                        style={{top:500, height:100, width:100}} 
                     />
                 </TouchableOpacity>
-                <LargeImage  showLargeImage={this.state.showLargeImage} style={{height, width, backgroundColor:'rgba(0,0,0,0.8)', position:'absolute'}}/>
+                { this.state.showLargeImage && <LargeImage hideImage={this.hideImage.bind(this)} translateX={this.state.translateX} translateY={this.state.translateY} showLargeImage={this.state.showLargeImage} style={{height, width, backgroundColor:'rgba(0,0,0,0.8)', position:'absolute'}}/>}
             </View>
         )
     }
 }
+
+//, transform:[{translateX: this.state.animateImageX}, {translateY: this.state.animateImageY}, {scaleX: this.state.scaleImageX}, {scaleY: this.state.scaleImageY}]
