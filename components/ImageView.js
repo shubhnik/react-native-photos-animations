@@ -14,7 +14,7 @@ import LargeImage from './largeImage'
 
 const { height, width } = Dimensions.get('window')
 
-let data =[
+let data = [
     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ7n8qdJPjst1CyYg-mSjNSIu0Z1z9h1_fR4NLXTpl66Y8AJD2k',
     'https://www.zoomtaqnia.com/wp-content/uploads/2016/02/Airbnb.jpeg',
     'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLddVLVeA4CcbX7mwyv-XollIrOOSmhRg_ept8LaIVXFIBfxsf',
@@ -25,13 +25,15 @@ export default class ImageView extends Component{
 
     state={
         showLargeImage:false,
-        imageSource:''
+        imageSource:'',
+        slideDownFade:false,
+        simpleHide:false
     }
 
-    showLargeImage({pageX, pageY, locationX, locationY}, source){
+    showLargeImage({pageX, pageY, locationX, locationY}, source, index){
         const translateX = pageX - locationX
         const translateY = pageY - locationY
-        this.setState({translateX, translateY, showLargeImage:true, imageSource:source})
+        this.setState({translateX, translateY, showLargeImage:true, imageSource:source, slideDownFade:(index/2), simpleHide:(index == 3)})
     }
 
     hideImage(){
@@ -49,7 +51,7 @@ export default class ImageView extends Component{
                                     activeOpacity={0.8}
                                     onPress={(e)=>{
                                         nE = e.nativeEvent
-                                        this.showLargeImage(nE, source)
+                                        this.showLargeImage(nE, source, index)
                                     }}
                                     style={{height:100, width:width/2, alignSelf:index ==2 ?'flex-end' : index == 3 ? 'flex-start' : 'center'}}
                                 >
@@ -58,7 +60,7 @@ export default class ImageView extends Component{
                             )
                         })
                     }
-                    { this.state.showLargeImage && <LargeImage source={this.state.imageSource} hideImage={this.hideImage.bind(this)} translateX={this.state.translateX} translateY={this.state.translateY}/>}
+                    { this.state.showLargeImage && <LargeImage simpleHide={this.state.simpleHide} hideStyle={this.state.slideDownFade} source={this.state.imageSource} hideImage={this.hideImage.bind(this)} translateX={this.state.translateX} translateY={this.state.translateY}/>}
             </View>
         )
     }

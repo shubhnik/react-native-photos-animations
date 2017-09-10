@@ -26,7 +26,6 @@ export default class LargeImage extends Component{
     }
 
     componentDidMount(){
-        //alert(this.props.imgSource)
         Animated.parallel([
             Animated.timing(
                 this.state.viewOpacity,
@@ -72,64 +71,69 @@ export default class LargeImage extends Component{
     }
 
     hideImage(){
-        Animated.parallel([
-            Animated.timing(
-                this.state.viewOpacity,
-                {
-                    toValue:0,
-                    duration:300,
-                    useNativeDriver:true
-                }
-            ),
-            Animated.timing(
-                this.state.animateImageY,
-                {
-                    toValue: height/2 + height/6,
-                    duration:200,
-                    useNativeDriver:true
-                }
-            )
-        ]).start(() => this.props.hideImage())
-
-        // Animated.parallel([
-        //     Animated.timing(
-        //         this.state.scaleImageX,
-        //         {
-        //             toValue:0.7,
-        //             duration:200,
-        //             useNativeDriver:true
-        //         }
-        //     ),
-        //     Animated.timing(
-        //         this.state.scaleViewX,
-        //         {
-        //             toValue:0.7,
-        //             duration:200,
-        //             useNativeDriver:true
-        //         }
-        //     ),
-        //     Animated.timing(
-        //         this.state.scaleViewY,
-        //         {
-        //             toValue:0.7,
-        //             duration:200,
-        //             useNativeDriver:true
-        //         }
-        //     ),
-        //     Animated.timing(
-        //         this.state.viewOpacity,
-        //         {
-        //             toValue:0,
-        //             duration:200,
-        //             useNativeDriver:true
-        //         }
-        //     )
-        // ]).start(()=>this.props.hideImage())
+        if(this.props.simpleHide){
+            this.props.hideImage()
+            return
+        }
+        if(this.props.hideStyle){
+            Animated.parallel([
+                Animated.timing(
+                    this.state.viewOpacity,
+                    {
+                        toValue:0,
+                        duration:300,
+                        useNativeDriver:true
+                    }
+                ),
+                Animated.timing(
+                    this.state.animateImageY,
+                    {
+                        toValue: height/2 + height/6,
+                        duration:200,
+                        useNativeDriver:true
+                    }
+                )
+            ]).start(() => this.props.hideImage())
+        }else{
+            Animated.parallel([
+                Animated.timing(
+                    this.state.scaleImageX,
+                    {
+                        toValue:0.7,
+                        duration:200,
+                        useNativeDriver:true
+                    }
+                ),
+                Animated.timing(
+                    this.state.scaleViewX,
+                    {
+                        toValue:0.7,
+                        duration:200,
+                        useNativeDriver:true
+                    }
+                ),
+                Animated.timing(
+                    this.state.scaleViewY,
+                    {
+                        toValue:0.7,
+                        duration:200,
+                        useNativeDriver:true
+                    }
+                ),
+                Animated.timing(
+                    this.state.viewOpacity,
+                    {
+                        toValue:0,
+                        duration:200,
+                        useNativeDriver:true
+                    }
+                )
+            ]).start(()=>this.props.hideImage())
+        }
     }
 
     render(){
-        return(
-            //this.props.showLargeImage && <LargeImage style={{ ...this.props.style }}/> 
+        return( 
             <Animated.View style={{height, width, backgroundColor:'rgba(0,0,0,0.9)', position:'absolute', opacity:this.state.viewOpacity, transform:[{scaleX:this.state.scaleViewX}, {scaleY:this.state.scaleViewY}]}} >
                 <Animated.Image
                     resizeMode='cover'
