@@ -47,7 +47,7 @@ export default class LargeImage extends Component{
             Animated.timing(
                 this.state.animateImageX,
                 {
-                    toValue: width/2 - (this.props.translateX+50),
+                    toValue: width/2 - (this.props.translateX+width/4),
                     duration:200,
                     useNativeDriver:true
                 }
@@ -55,7 +55,7 @@ export default class LargeImage extends Component{
             Animated.timing(
                 this.state.scaleImageX,
                 {
-                    toValue: (width/100),
+                    toValue: 2,
                     duration:100,
                     useNativeDriver:true
                 }
@@ -72,51 +72,59 @@ export default class LargeImage extends Component{
     }
 
     hideImage(){
-        // Animated.parallel([
-        //     Animated.timing(
-        //         this.state.viewOpacity,
-        //         {
-        //             toValue:0,
-        //             duration:300,
-        //             useNativeDriver:true
-        //         }
-        //     ),
-        //     Animated.timing(
-        //         this.state.animateImageY,
-        //         {
-        //             toValue: height/2 + height/6,
-        //             duration:200,
-        //             useNativeDriver:true
-        //         }
-        //     )
-        // ]).start(() => this.props.hideImage())
-
         Animated.parallel([
-            Animated.timing(
-                this.state.scaleViewX,
-                {
-                    toValue:0.7,
-                    duration:200,
-                    useNativeDriver:true
-                }
-            ),
-            Animated.timing(
-                this.state.scaleViewY,
-                {
-                    toValue:0.7,
-                    duration:200,
-                    useNativeDriver:true
-                }
-            ),
             Animated.timing(
                 this.state.viewOpacity,
                 {
                     toValue:0,
+                    duration:300,
+                    useNativeDriver:true
+                }
+            ),
+            Animated.timing(
+                this.state.animateImageY,
+                {
+                    toValue: height/2 + height/6,
                     duration:200,
                     useNativeDriver:true
                 }
             )
-        ]).start(()=>this.props.hideImage())
+        ]).start(() => this.props.hideImage())
+
+        // Animated.parallel([
+        //     Animated.timing(
+        //         this.state.scaleImageX,
+        //         {
+        //             toValue:0.7,
+        //             duration:200,
+        //             useNativeDriver:true
+        //         }
+        //     ),
+        //     Animated.timing(
+        //         this.state.scaleViewX,
+        //         {
+        //             toValue:0.7,
+        //             duration:200,
+        //             useNativeDriver:true
+        //         }
+        //     ),
+        //     Animated.timing(
+        //         this.state.scaleViewY,
+        //         {
+        //             toValue:0.7,
+        //             duration:200,
+        //             useNativeDriver:true
+        //         }
+        //     ),
+        //     Animated.timing(
+        //         this.state.viewOpacity,
+        //         {
+        //             toValue:0,
+        //             duration:200,
+        //             useNativeDriver:true
+        //         }
+        //     )
+        // ]).start(()=>this.props.hideImage())
     }
 
     render(){
@@ -124,6 +132,7 @@ export default class LargeImage extends Component{
             //this.props.showLargeImage && <LargeImage style={{ ...this.props.style }}/> 
             <Animated.View style={{height, width, backgroundColor:'rgba(0,0,0,0.9)', position:'absolute', opacity:this.state.viewOpacity, transform:[{scaleX:this.state.scaleViewX}, {scaleY:this.state.scaleViewY}]}} >
                 <Animated.Image
+                    resizeMode='cover'
                     source={{uri:this.props.source}} 
                     style={{top:this.props.translateY, left:this.props.translateX, height:100, width:width/2, transform:[{translateX: this.state.animateImageX}, {translateY: this.state.animateImageY}, {scaleX: this.state.scaleImageX}, {scaleY: this.state.scaleImageY}]}} 
                 />

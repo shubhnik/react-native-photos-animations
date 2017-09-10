@@ -51,7 +51,7 @@ export default class ImageView extends Component{
                                         nE = e.nativeEvent
                                         this.showLargeImage(nE, source)
                                     }}
-                                    style={{height:100, width:width/2}}
+                                    style={{height:100, width:width/2, alignSelf:index ==2 ?'flex-end' : index == 3 ? 'flex-start' : 'center'}}
                                 >
                                     <Image source={{uri:source}} style={{flex:1}}/>
                                 </TouchableOpacity>
