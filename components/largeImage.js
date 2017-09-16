@@ -38,7 +38,7 @@ export default class LargeImage extends Component{
             Animated.timing(
                 this.state.animateImageY,
                 {
-                    toValue: height/2 - (this.props.translateY+50),
+                    toValue: height/2 - (this.props.topLeftY+50),
                     duration:200,
                     useNativeDriver:true
                 }
@@ -46,7 +46,7 @@ export default class LargeImage extends Component{
             Animated.timing(
                 this.state.animateImageX,
                 {
-                    toValue: width/2 - (this.props.translateX+width/4),
+                    toValue: width/2 - (this.props.topLeftX+width/4),
                     duration:200,
                     useNativeDriver:true
                 }
@@ -113,7 +113,7 @@ export default class LargeImage extends Component{
                 <Animated.Image
                     resizeMode='cover'
                     source={{uri:this.props.source}} 
-                    style={{top:this.props.translateY, left:this.props.translateX, height:100, width:width/2, transform:[{translateX: this.state.animateImageX}, {translateY: this.state.animateImageY}, {scaleX: this.state.scaleImageX}, {scaleY: this.state.scaleImageY}]}} 
+                    style={{top:this.props.topLeftY, left:this.props.topLeftX, height:100, width:width/2, transform:[{translateX: this.state.animateImageX}, {translateY: this.state.animateImageY}, {scaleX: this.state.scaleImageX}, {scaleY: this.state.scaleImageY}]}} 
                 />
                 <TouchableOpacity 
                     onPress={()=>this.animateBack()}

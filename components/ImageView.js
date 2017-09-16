@@ -26,15 +26,13 @@ export default class ImageView extends Component{
     state={
         showLargeImage:false,
         imageSource:'',
-        slideDownFade:false,
-        simpleHide:false,
         selectedIndex:null
     }
 
     showLargeImage({pageX, pageY, locationX, locationY}, source, index){
-        const translateX = pageX - locationX
-        const translateY = pageY - locationY
-        this.setState({translateX, translateY, showLargeImage:true, imageSource:source, slideDownFade:(index/2), simpleHide:(index == 3), selectedIndex:index})
+        const topLeftX = pageX - locationX
+        const topLeftY = pageY - locationY
+        this.setState({topLeftX, topLeftY, showLargeImage:true, imageSource:source, selectedIndex:index})
     }
 
     hideImage(){
@@ -61,7 +59,7 @@ export default class ImageView extends Component{
                             )
                         })
                     }
-                    { this.state.showLargeImage && <LargeImage simpleHide={this.state.simpleHide} hideStyle={this.state.slideDownFade} source={this.state.imageSource} hideImage={this.hideImage.bind(this)} translateX={this.state.translateX} translateY={this.state.translateY}/>}
+                    { this.state.showLargeImage && <LargeImage simpleHide={this.state.simpleHide} hideStyle={this.state.slideDownFade} source={this.state.imageSource} hideImage={this.hideImage.bind(this)} topLeftX={this.state.topLeftX} topLeftY={this.state.topLeftY}/>}
             </View>
         )
     }
