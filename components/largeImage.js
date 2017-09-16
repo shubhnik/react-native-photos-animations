@@ -70,6 +70,43 @@ export default class LargeImage extends Component{
          ]).start()
     }
 
+    animateBack(){
+        Animated.parallel([
+            Animated.timing(
+                this.state.animateImageY,
+                {
+                    toValue: 0,
+                    duration:200,
+                    useNativeDriver:true
+                }
+            ),
+            Animated.timing(
+                this.state.animateImageX,
+                {
+                    toValue: 0,
+                    duration:200,
+                    useNativeDriver:true
+                }
+            ),
+            Animated.timing(
+                this.state.scaleImageX,
+                {
+                    toValue: 1,
+                    duration:100,
+                    useNativeDriver:true
+                }
+            ),
+            Animated.timing(
+                this.state.scaleImageY,
+                {
+                    toValue: 1,
+                    duration:100,
+                    useNativeDriver:true
+                }
+            )
+        ]).start(()=>this.props.hideImage())
+    }
+
     hideImage(){
         if(this.props.simpleHide){
             this.props.hideImage()
@@ -141,7 +178,7 @@ export default class LargeImage extends Component{
                     style={{top:this.props.translateY, left:this.props.translateX, height:100, width:width/2, transform:[{translateX: this.state.animateImageX}, {translateY: this.state.animateImageY}, {scaleX: this.state.scaleImageX}, {scaleY: this.state.scaleImageY}]}} 
                 />
                 <TouchableOpacity 
-                    onPress={()=>this.hideImage()}
+                    onPress={()=>this.animateBack()}
                     style={{left:20, top:30, position:'absolute', height:30, width:60, backgroundColor:'rgba(20,20,20,0.7)', borderRadius:3, borderWidth:0.7, borderColor:'lightgrey', justifyContent:'center', alignItems:'center'}}
                 >
                     <Text style={{color:'lightgrey'}}>Close</Text>

@@ -27,17 +27,18 @@ export default class ImageView extends Component{
         showLargeImage:false,
         imageSource:'',
         slideDownFade:false,
-        simpleHide:false
+        simpleHide:false,
+        selectedIndex:null
     }
 
     showLargeImage({pageX, pageY, locationX, locationY}, source, index){
         const translateX = pageX - locationX
         const translateY = pageY - locationY
-        this.setState({translateX, translateY, showLargeImage:true, imageSource:source, slideDownFade:(index/2), simpleHide:(index == 3)})
+        this.setState({translateX, translateY, showLargeImage:true, imageSource:source, slideDownFade:(index/2), simpleHide:(index == 3), selectedIndex:index})
     }
 
     hideImage(){
-        this.setState({showLargeImage:false})
+        this.setState({showLargeImage:false, selectedIndex:null})
     }
 
     render(){
@@ -55,7 +56,7 @@ export default class ImageView extends Component{
                                     }}
                                     style={{height:100, width:width/2, alignSelf:index ==2 ?'flex-end' : index == 3 ? 'flex-start' : 'center'}}
                                 >
-                                    <Image source={{uri:source}} style={{flex:1}}/>
+                                    <Image source={{uri:source}} style={{flex:1, opacity:this.state.selectedIndex == index ? 0 : 1}}/>
                                 </TouchableOpacity>
                             )
                         })
