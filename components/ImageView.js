@@ -59,7 +59,7 @@ export default class ImageView extends Component{
                             )
                         })
                     }
-                    { this.state.showLargeImage && <LargeImage simpleHide={this.state.simpleHide} hideStyle={this.state.slideDownFade} source={this.state.imageSource} hideImage={this.hideImage.bind(this)} topLeftX={this.state.topLeftX} topLeftY={this.state.topLeftY}/>}
+                    { this.state.showLargeImage && <LargeImage selectedIndex={this.state.selectedIndex} imageArray={data} simpleHide={this.state.simpleHide} hideStyle={this.state.slideDownFade} source={this.state.imageSource} hideImage={this.hideImage.bind(this)} topLeftX={this.state.topLeftX} topLeftY={this.state.topLeftY}/>}
             </View>
         )
     }
