@@ -72,42 +72,44 @@ export default class LargeImage extends Component{
          ]).start()
     }
 
-    animateBack(){
-        Animated.parallel([
-            Animated.timing(
-                this.state.animateImageY,
-                {
-                    toValue: 0,
-                    duration:200,
-                    useNativeDriver:true
-                }
-            ),
-            Animated.timing(
-                this.state.animateImageX,
-                {
-                    toValue: 0,
-                    duration:200,
-                    useNativeDriver:true
-                }
-            ),
-            Animated.timing(
-                this.state.scaleImageX,
-                {
-                    toValue: 1,
-                    duration:100,
-                    useNativeDriver:true
-                }
-            ),
-            Animated.timing(
-                this.state.scaleImageY,
-                {
-                    toValue: 1,
-                    duration:100,
-                    useNativeDriver:true
-                }
-            )
-        ]).start(()=>this.props.hideImage())
-    }
+
+    // CLOSE ANIMATION REMOVED FOR IMAGE SLIDER
+    // animateBack(){
+    //     Animated.parallel([
+    //         Animated.timing(
+    //             this.state.animateImageY,
+    //             {
+    //                 toValue: 0,
+    //                 duration:200,
+    //                 useNativeDriver:true
+    //             }
+    //         ),
+    //         Animated.timing(
+    //             this.state.animateImageX,
+    //             {
+    //                 toValue: 0,
+    //                 duration:200,
+    //                 useNativeDriver:true
+    //             }
+    //         ),
+    //         Animated.timing(
+    //             this.state.scaleImageX,
+    //             {
+    //                 toValue: 1,
+    //                 duration:100,
+    //                 useNativeDriver:true
+    //             }
+    //         ),
+    //         Animated.timing(
+    //             this.state.scaleImageY,
+    //             {
+    //                 toValue: 1,
+    //                 duration:100,
+    //                 useNativeDriver:true
+    //             }
+    //         )
+    //     ]).start(()=>this.props.hideImage())
+    // }
 
     hideImageScroll(){
         Animated.timing(
